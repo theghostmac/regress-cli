@@ -16,7 +16,7 @@ jobs:
         run: cargo build --release
 
       - name: Save new binary
-        run: cp target/release/regress regress-new
+        run: cp target/release/regress-cli regress-new
 
       # checkout and build base branch
       - name: Checkout base branch
@@ -26,7 +26,7 @@ jobs:
         run: cargo build --release
 
       - name: Save old binary
-        run: cp target/release/regress regress-new
+        run: cp target/release/regress-cli regress-new
 
       # Run comparison (using the NEW version of regress to test itself
       - name: Run regression test
