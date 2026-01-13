@@ -1,0 +1,41 @@
+name: Regress Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # build current PR version
+      - name: Build new version
+        run: cargo build --release
+
+      - name: Save new binary
+        run: cp target/release/regress regress-new
+
+      # checkout and build base branch
+      - name: Checkout base branch
+        run: git checkout ${{ github.base_ref }}
+
+      - name: Build old version
+        run: cargo build --release
+
+      - name: Save old binary
+        run: cp target/release/regress regress-new
+
+      # Run comparison (using the NEW version of regress to test itself
+      - name: Run regression test
+        run: echo "Coming soon"
+
+# steps
+# enter /binaries directory to find the former and the latter binaries
+# delete the former binary
+# build the new codebase using `make build` to generate a new binary with the recent features/optimization.
+# rename the binary incrementally
+# run regress against the binary.
+# this is the flow of everything; this regress-cli, a Go web app, a Rust app, everything that can be compiled to a binary.
